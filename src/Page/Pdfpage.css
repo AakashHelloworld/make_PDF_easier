@@ -1,0 +1,7 @@
+.pdfpage{
+  height: 100vh;
+}
+
+.container{
+  display: flex;
+}
