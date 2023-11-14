@@ -9,9 +9,8 @@ import { ResizableBox } from 'react-resizable';
   
   return (
     <div className="editorContainer">
-    <Editor   width={`${widthOne}%`} background={'blue'} />
-    <div className="scroll"></div>
-    <Editor  width={`${widthTwo}%`} background={'red'}/>
+    <Editor scroll={true} setMywidth={setWidthOne} setOtherwidth={setWidthTwo}     width={`${widthOne}%`} background={'blue'} />
+    <Editor  scroll={false} setMywidth={setWidthOne}  width={`${widthTwo}%`} setOtherwidth={setWidthTwo}  background={'red'}/>
     </div>
   );
 }

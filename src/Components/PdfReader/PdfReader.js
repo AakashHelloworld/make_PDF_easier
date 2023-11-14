@@ -10,13 +10,7 @@ export const PdfReader = ({ pdf}) => {
   return (
     <div className='editorSubContainer'>
     <div className='edittab'>
-        {/* <div className='rotateConatiner'>
-          <FaArrowRotateLeft style={{cursor: 'pointer'}} onClick={() => setRotate(rotate + 90)} />
-          <p>Rotate</p>
-          <FaArrowRotateRight style={{cursor: 'pointer'}} onClick={() => setRotate(rotate - 90)} />
-        </div> */}
     </div>
-
     <div className='editor'>
     <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
     {

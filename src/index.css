@@ -7,6 +7,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   padding: 0;
   overflow: hidden;
+  -webkit-user-select: none; /* Safari */
+-ms-user-select: none; /* IE 10 and IE 11 */
+user-select: none; /* Standard syntax */
 }
 
 code {
@@ -29,3 +32,11 @@ code {
   background: rgb(0, 0, 0);
   border-radius: 10px;
 }
+
+li{
+  list-style: none;
+}
+.hide{
+  display: none;
+}
+
