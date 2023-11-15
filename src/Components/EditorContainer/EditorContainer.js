@@ -53,32 +53,39 @@ import { Draggable,Droppable, DragDropContext } from "react-beautiful-dnd";
     }
   ])
 
-  const dragEndHandler = (result) => {
-    const destination = result.destination;
-    const source = result.source;
-    console.log(destination, source)
+const dragEndHandler = (result) => {
+    const { destination, source, draggableId: destinationId } = result;
+    
+    console.log(destination, source, destinationId)
+    
     if(!(source?.droppableId && destination?.droppableId)) return
-    if(source.droppableId == destination.droppableId) {
-      return
+
+    const reorderItems = (items, source, destination) => {
+        const [reorderedItem] = items.splice(source.index, 1);
+        items.splice(destination.index, 0, reorderedItem);
+        return items;
     }
-    const destinationId = result.draggableId;
-    const isItInTabOne = tabsOne.filter((data)=>  (data.id == destinationId))
-    if(isItInTabOne?.length){
-        setTabsTwo((prev)=>{
-          return[...prev, isItInTabOne[0]]
-        })
-        const filterThatTab = tabsOne.filter((data)=>(data.id != destinationId))
-        setTabsOne(filterThatTab)
-    }else{
-      const isItInTabTwo = tabsTwo.filter((data)=>(data.id == destinationId))
-        if(isItInTabTwo?.length){
-            setTabsOne((prev)=>{
-              return [...prev, isItInTabTwo[0] ]
-            })
-            const filterThatTab = tabsTwo.filter((data)=>(data.id != destinationId))
-            setTabsTwo(filterThatTab)
+
+    const filterItems = (items, id) => items.filter((data)=>(data.id != id))
+
+    if(source.droppableId == destination.droppableId) {
+        if(tabsOne.some(data => data.id == destinationId)){
+            setTabsOne(reorderItems(Array.from(tabsOne), source, destination));
         }
-      }};
+        if(tabsTwo.some(data => data.id == destinationId)){
+            setTabsTwo(reorderItems(Array.from(tabsTwo), source, destination));
+        }
+        return
+    }
+
+    if(tabsOne.some(data => data.id == destinationId)){
+        setTabsTwo(prev => [...prev, ...tabsOne.filter(data => data.id == destinationId)]);
+        setTabsOne(filterItems(tabsOne, destinationId));
+    }else if(tabsTwo.some(data => data.id == destinationId)){
+        setTabsOne(prev => [...prev, ...tabsTwo.filter(data => data.id == destinationId)]);
+        setTabsTwo(filterItems(tabsTwo, destinationId));
+    }
+};
   
   return (
     <DragDropContext onDragEnd={dragEndHandler}>
