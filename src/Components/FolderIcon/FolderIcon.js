@@ -6,6 +6,12 @@ import { FaAngleDown, FaAngleUp, FaFolder, FaFolderOpen } from 'react-icons/fa'
   return (
     <>
     <button
+        style={{
+            backgroundColor:'transparent',
+            border:'none',
+            outline:'none',
+            cursor:'pointer',
+        }}
         onClick={(e)=>{
           onclick(e)
           setOpen(prev=>!prev)
@@ -13,14 +19,19 @@ import { FaAngleDown, FaAngleUp, FaFolder, FaFolderOpen } from 'react-icons/fa'
     >
         {
             open==false?
-            <FaAngleDown/>
-            :<FaAngleUp/>
+            <FaAngleDown
+            size={15}  color='white'
+
+            />
+            :<FaAngleUp
+            size={15}  color='white'
+            />
         }
     </button>
     {
       open?
-      <FaFolderOpen/>
-      :<FaFolder/>
+      <FaFolderOpen size={20}  color='rgba(255,198,0,255)'/>
+      :<FaFolder size={20} color='rgba(255,198,0,255)' />
     }
     </>
   )

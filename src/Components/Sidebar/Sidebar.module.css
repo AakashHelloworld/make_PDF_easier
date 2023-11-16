@@ -1,0 +1,32 @@
+.sidebar{
+    height: 100vh;
+    width: 17%;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    position: relative;
+    background-color: rgba(21,35,45,255);
+}
+.children{
+    padding-left: 16px;
+    border-left: 1px solid grey;
+}
+.folder, .file{
+    border-left: 1px solid grey;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.file{
+    padding-left: 10px;
+}
+.folder:hover, .file:hover{
+    background-color: #1a3447;   
+}
+
+
+
+.menuContainer{
+    position: absolute;
+    z-index: 10;
+}

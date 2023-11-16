@@ -47,12 +47,21 @@ export const Editor = ( {width, setMywidth,setOtherwidth,scroll, tabs, tabId, se
 
 
   return (
-    <div style={{ height: '100%',width: `${width}`, position:`relative`, overflowX:'hidden'}} className='editorTab' >
+    <Droppable droppableId={tabId} direction='horizontal'>
+    {(provided, snapshot) => (
+    <div
+    ref={provided.innerRef}
+    {...provided.droppableProps}
+     style={{ height: '100%',width: `${width}`, position:`relative`, overflowX:'hidden'}} className='editorTab' >
     <Tab tabId={tabId} selectTab={selectTab} tabs={tabs}/>
     <PdfReader pdf={pdfselect} />
     {  scroll&&
     <div className='resize' style={{position:`absolute`,top:'0',right:0, height:'100%',width:'2px',background:`#323232`, transform:`translateX(-50%)`, cursor: `w-resize`}} onMouseDown={mouseDownHandler}></div>
     }
-    </div>
+    {provided.placeholder}
+    </div>      
+    )}
+    </Droppable>
   )
+
 }

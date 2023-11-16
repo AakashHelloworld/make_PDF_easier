@@ -1,17 +1,14 @@
 import React from 'react'
 import './Tab.css'
 import { Draggable,Droppable,DragDropContext} from "react-beautiful-dnd";
+import { BiSolidFilePdf } from "react-icons/bi";
 
 export const Tab = ({tabs,selectTab, tabId}) => {
 
   return ( 
-
-    <Droppable key={tabId} droppableId={tabId} direction='horizontal'>
-    {(provided, snapshot) => (
       <div className='tab'
               id={tabId}
-               ref={provided.innerRef}
-              {...provided.droppableProps}
+            
       >
     {
       tabs?.map((tab, index)=>{
@@ -30,7 +27,14 @@ export const Tab = ({tabs,selectTab, tabId}) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
            >
+           <BiSolidFilePdf
+              style={{marginRight:'4px'}} 
+              size={20}
+              color='red'
+
+           />
             {tab.name}
+            {provided.placeholder}
           </div> 
           )}
           </Draggable>
@@ -38,9 +42,7 @@ export const Tab = ({tabs,selectTab, tabId}) => {
         )  
       })
     }
-    {provided.placeholder}
     </div>      
-    )}
-    </Droppable>
+
   )
 }

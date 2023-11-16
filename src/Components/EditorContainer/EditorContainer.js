@@ -5,7 +5,7 @@ import pdfOne from "../../PDF/sample.pdf";
 import pdfTwo from "../../PDF/sampleone.pdf";
 import pdffour from "../../PDF/sampletwo.pdf";
 import pdfThree from "../../PDF/samplethree.pdf";
-import { Draggable,Droppable, DragDropContext } from "react-beautiful-dnd";
+import {Droppable, DragDropContext } from "react-beautiful-dnd";
 
 
  export const  EditorContainer =()=> {
@@ -90,8 +90,14 @@ const dragEndHandler = (result) => {
   return (
     <DragDropContext onDragEnd={dragEndHandler}>
     <div className="editorContainer">
-    <Editor setTabsOne={setTabsOne} setTabsTwo={setTabsTwo}  tabId={'tabOne'} tabs={tabsOne} scroll={true} setMywidth={setWidthOne} setOtherwidth={setWidthTwo}     width={`${widthOne}%`} background={'blue'} />
-    <Editor setTabsOne={setTabsOne} setTabsTwo={setTabsTwo} tabId={'tabTwo'} tabs={tabsTwo}  scroll={false} setMywidth={setWidthOne}  width={`${widthTwo}%`} setOtherwidth={setWidthTwo}  background={'red'}/>
+    { tabsOne.length > 0 &&
+    <Editor    
+        setTabsOne={setTabsOne} setTabsTwo={setTabsTwo}  tabId={'tabOne'} tabs={tabsOne} scroll={true} setMywidth={setWidthOne} setOtherwidth={setWidthTwo}     width={(tabsTwo.length)?`${widthOne}%`:`100%`} background={'blue'} />
+  }
+  { tabsTwo.length > 0 &&
+    <Editor setTabsOne={setTabsOne} setTabsTwo={setTabsTwo} tabId={'tabTwo'} tabs={tabsTwo}  scroll={false} setMywidth={setWidthOne}  width={tabsOne.length?`${widthTwo}%`:`100%`} setOtherwidth={setWidthTwo}  background={'red'}/>
+
+  }
     </div>
     </DragDropContext>
   );
