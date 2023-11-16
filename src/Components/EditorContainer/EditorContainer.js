@@ -8,7 +8,7 @@ import pdfThree from "../../PDF/samplethree.pdf";
 import {Droppable, DragDropContext } from "react-beautiful-dnd";
 
 
- export const  EditorContainer =()=> {
+ export const  EditorContainer =({modalOpen})=> {
 
   const [widthOne, setWidthOne] = useState(50)
   const [widthTwo, setWidthTwo] = useState(50)
@@ -89,7 +89,7 @@ const dragEndHandler = (result) => {
   
   return (
     <DragDropContext onDragEnd={dragEndHandler}>
-    <div className="editorContainer">
+    <div className="editorContainer" style={modalOpen ?{ zIndex:-1}:{zIndex:0}}>
     { tabsOne.length > 0 &&
     <Editor    
         setTabsOne={setTabsOne} setTabsTwo={setTabsTwo}  tabId={'tabOne'} tabs={tabsOne} scroll={true} setMywidth={setWidthOne} setOtherwidth={setWidthTwo}     width={(tabsTwo.length)?`${widthOne}%`:`100%`} background={'blue'} />

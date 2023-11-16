@@ -8,12 +8,14 @@ import { Menu } from '../Menu/Menu';
 import { folder } from '../../Utils/folder';
 import AddPDFPopups from '../AddPDFPopups/AddPDFPopups';
 
-export const Sidebar =()=>{
+export const Sidebar =({modalOpen,setModalOpen})=>{
     const [menuOptionActive,setMenuOptionActive]=useState(false)
     const [folderStructure, setFolderStructure] = useState(folder)
     const [selectedFolder, setSelectedFolder] = useState("")
-    const [modalOpen, setModalOpen] = useState(false);
+    const [selectFile, setSelectFile] = React.useState(null)
+
     const folderClickHandler=(e)=>{
+
         console.log(e)
         e.preventDefault()
         const menuContainer=document.querySelector("."+style.menuContainer)
@@ -25,7 +27,6 @@ export const Sidebar =()=>{
 
     const createFolderHandler = (e) => {
         e.preventDefault();
-        let faltufolder = folderStructure
         const fileId = selectedFolder; 
         if(fileId == "") return;
         
@@ -51,11 +52,69 @@ export const Sidebar =()=>{
     };
 
 
+    useEffect(()=>{
+            
+        if(selectFile){
+            const fileId = selectedFolder;
+            if(selectFile){
+                const fileId = selectedFolder; 
+                console.log(fileId)
+                if(fileId == "") return;
+                
+                const NewFolderStructure = {
+                    name: selectFile.name,
+                    type: "file",
+                    id: Date.now(),
+                    content: selectFile
+                };
+                const loop = (folder, id, newFolder) => {
+                    if(folder?.id == id) {
+                        folder?.child.push(newFolder);
+                        console.log(folder)
+                    } else {
+                        for(let i = 0; i < folder?.child?.length; i++){
+                            loop(folder?.child[i], id, newFolder);
+                        }
+                    }
+                }
+                setSelectFile(null)
+                loop(folderStructure, fileId, NewFolderStructure)
+                setFolderStructure(folderStructure)
+            }
+        }
+
+    },[selectFile])
+
+
     const importPdfFile = (e) => {
         e.preventDefault();
         setModalOpen(true);
         setMenuOptionActive(false)
-        
+        if(selectFile){
+            const fileId = selectedFolder; 
+            console.log(fileId)
+            if(fileId == "") return;
+            
+            const NewFolderStructure = {
+                name: selectFile.name,
+                type: "file",
+                id: Date.now(),
+                content: selectFile
+            };
+            const loop = (folder, id, newFolder) => {
+                if(folder?.id == id) {
+                    folder?.child.push(newFolder);
+                    console.log(folder)
+                } else {
+                    for(let i = 0; i < folder?.child?.length; i++){
+                        loop(folder?.child[i], id, newFolder);
+                    }
+                }
+            }
+            loop(folderStructure, fileId, NewFolderStructure)
+            setFolderStructure(folderStructure)
+
+        }
     }
     
     
@@ -128,13 +187,14 @@ export const Sidebar =()=>{
             )
         }
     }
-    
+
+
     useEffect(()=>{
         document.addEventListener("click",(e)=>{
             var menuContainer = document.querySelector('.'+style.menuContainer);
-            // if (e.target !== menuContainer && !menuContainer?.contains?.(e.target)) {
-            //     setMenuOptionActive(false)
-            // }
+            if (e.target !== menuContainer && !menuContainer?.contains?.(e.target)) {
+                setMenuOptionActive(false)
+            }
         })
         return ()=>{
             document.removeEventListener("click",(e)=>{})
@@ -160,7 +220,7 @@ export const Sidebar =()=>{
             }
         </div>
     </div>
-   { modalOpen && <AddPDFPopups setModalOpen={setModalOpen}/>}
+   { modalOpen && <AddPDFPopups selectFile={selectFile} setSelectFile={setSelectFile} setModalOpen={setModalOpen}/>}
 </>
   )
 

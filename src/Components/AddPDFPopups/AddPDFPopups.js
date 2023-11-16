@@ -1,8 +1,6 @@
 import React from 'react'
 import style from "./AddPDFPopups.module.css"
-const AddPDFPopups = ({setModalOpen}) => {
-    const [selectFile, setSelectFile] = React.useState(null)
- 
+const AddPDFPopups = ({setModalOpen, setSelectFile, selectFile}) => { 
     return (
     <div id='container' className={style.container}
         onClick={e => {
@@ -12,17 +10,18 @@ const AddPDFPopups = ({setModalOpen}) => {
         }}
     >
         <div id='formContainer' className={style.formContainer}>
-        <form id='form' className={style.form} 
-        onDrop={(e)=>{
-            e.preventDefault()
-            setSelectFile(e.dataTransfer.files[0])
-        }} >
+        <form id='form' className={style.form}>
             { !selectFile ?
                 <>
-            <span id='spanOne' className={style.span}>Drag and Drop or </span>
             <label id='label' className={style.label}>
                 Browse File
-                <input className={style.input} type='file' onChange={(e)=>setSelectFile(e.target.files[0])} />
+                <input className={style.input} type='file' onChange={(e)=>{
+                    console.log(e.target.files[0])
+                    if (e.target.files[0]) {
+                        setSelectFile(e.target.files[0])
+                        setModalOpen(false)
+                    }
+}} />
             </label>
             </> : <span id='spanTwo'  className={style.span}>Uploaded PDF</span>
             } 
