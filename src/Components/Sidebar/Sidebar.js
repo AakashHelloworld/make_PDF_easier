@@ -53,6 +53,39 @@ export const Sidebar =({modalOpen,setModalOpen})=>{
         setMenuOptionActive(false)
     };
 
+    const deleteFolderHandler = (e) => {
+        e.preventDefault();
+        console.log("Delete Handler")
+        const fileId = selectedFolder;
+        console.log("Delete Handler", fileId)
+        if(fileId == "") return;
+        
+        const loop = (folder, id) => {
+            folder.child = folder.child.filter(child => {
+                if (child.id === id) {
+                    return false;
+                }
+                loop(child, id);
+                return true;
+            });
+        }
+        
+        loop(folderStructure, fileId)
+        console.log(folderStructure)
+        setFolderStructure(folderStructure)
+        setMenuOptionActive(false)
+        
+    }
+
+
+    const editFolderHandler = (e) => {
+        e.preventDefault();
+        const fileId = selectedFolder;
+        if(fileId == "") return;
+
+        setMenuOptionActive(false)
+    }
+
 
     useEffect(()=>{
             
@@ -216,11 +249,11 @@ export const Sidebar =({modalOpen,setModalOpen})=>{
         >
             {
                 menuOptionActive &&
-                <Menu createFolderHandler={createFolderHandler} importPdfFile={importPdfFile}/>
+                <Menu deleteFolderHandler={deleteFolderHandler} createFolderHandler={createFolderHandler} importPdfFile={importPdfFile}/>
             }
         </div>
     </div>
-   { modalOpen && <AddPDFPopups selectFile={selectFile} setSelectFile={setSelectFile} setModalOpen={setModalOpen}/>}
+   { modalOpen && <AddPDFPopups  selectFile={selectFile} setSelectFile={setSelectFile} setModalOpen={setModalOpen}/>}
 </>
   )
 
