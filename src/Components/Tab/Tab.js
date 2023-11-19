@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Tab.css'
 import { Draggable,Droppable,DragDropContext} from "react-beautiful-dnd";
 import { BiSolidFilePdf } from "react-icons/bi";
@@ -18,7 +18,8 @@ export const Tab = ({tabs,selectTab, tabId}) => {
 
           <div 
           index={index}
-          id={`${tab.id}`}  
+          id={`${tab.id}`}
+          
           title={tab.name} 
           onClick={()=>selectTab(tab.name)} 
           value={tab.name} key={tab.name} 
@@ -33,7 +34,7 @@ export const Tab = ({tabs,selectTab, tabId}) => {
               color='red'
 
            />
-            {tab.name}
+            { tab?.name?.length > 10 ?(tab?.name).slice(0,10) + "...": tab?.name }
             {provided.placeholder}
           </div> 
           )}

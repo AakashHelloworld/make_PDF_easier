@@ -7,8 +7,10 @@ import style from "./Sidebar.module.css"
 import { Menu } from '../Menu/Menu';
 import { folder } from '../../Utils/folder';
 import AddPDFPopups from '../AddPDFPopups/AddPDFPopups';
-
+import { useDispatch } from 'react-redux';
+import { tabAddHandler } from '../../Store/tabSlice';
 export const Sidebar =({modalOpen,setModalOpen})=>{
+    const Dispatch  = useDispatch();
     const [menuOptionActive,setMenuOptionActive]=useState(false)
     const [folderStructure, setFolderStructure] = useState(folder)
     const [selectedFolder, setSelectedFolder] = useState("")
@@ -82,7 +84,6 @@ export const Sidebar =({modalOpen,setModalOpen})=>{
                 setFolderStructure(folderStructure)
             }
         }
-
     },[selectFile])
 
 
@@ -142,12 +143,12 @@ export const Sidebar =({modalOpen,setModalOpen})=>{
         }
         else if(element.type=="file"){
             return (
-                <div id={element.id} className={style.file} >
+                <div id={element.id} className={style.file} onClick={()=>Dispatch(tabAddHandler({id:element.id, folderStructure}))} >
                     <GrDocumentPdf
                         size={20}
                         color='red'
                     />
-                    <span >{element.name}</span>
+                    <span >{ element?.name?.length > 10 ?(element?.name).slice(0,10) + "...": element.name }</span>
                 </div>
             )
         }
@@ -205,8 +206,7 @@ export const Sidebar =({modalOpen,setModalOpen})=>{
   return (
     <>
     <div className={style.sidebar}
-        onContextMenu={(e)=>e.preventDefault()}
-    >
+        onContextMenu={(e)=>e.preventDefault()}> 
         <ul>
             {
                 figureOutStructure(folderStructure)
